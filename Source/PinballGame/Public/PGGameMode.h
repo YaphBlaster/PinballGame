@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "PBGameMode.generated.h"
+#include "PGGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PINBALLGAME_API APBGameMode : public AGameModeBase
+class PINBALLGAME_API APGGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	

@@ -61,3 +61,8 @@ void APGBall::Tick(float DeltaTime)
 
 }
 
+UStaticMeshComponent* APGBall::GetMeshComp()
+{
+	return MeshComp;
+}
+
