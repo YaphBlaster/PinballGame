@@ -22,8 +22,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 		UStaticMeshComponent* MeshComp;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite, Category = "Variables")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Variables")
 		FVector DefaultSpeed;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Variables")
+		float TableStickyness;
 
 
 public:	
