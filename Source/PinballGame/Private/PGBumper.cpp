@@ -57,14 +57,13 @@ void APGBumper::BeginPlay()
 
 	FOnTimelineFloat InterpFunc;
 
-
 	// Check if curve asset reference is valid
 	if (FloatCurve)
 	{
 		InterpFunc.BindUFunction(this, FName("Update"));
 
 		// Add the float curve to the Timeline and connect to the InterpFunction's delegate
-		BumpTimeline->AddInterpFloat(FloatCurve, InterpFunc, FName("Alpha"));
+		BumpTimeline->AddInterpFloat(FloatCurve, InterpFunc);
 
 		// Setting Vectors
 		BumperMechanismStart = FVector();
