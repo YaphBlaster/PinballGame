@@ -25,7 +25,7 @@ APGBumper::APGBumper()
 	// Reset all collision responses to ignore
 	CapsuleComp->SetCollisionResponseToAllChannels(ECR_Ignore);
 
-	// Specifically set collision response of PhysicsBody actors to overlap
+	// Specifically set collision response to PhysicsBody actors to overlap
 	CapsuleComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
 	
 	// Set the BumperMesh as the Highest Parent
@@ -35,9 +35,14 @@ APGBumper::APGBumper()
 	BumperMechanism->SetupAttachment(RootComponent);
 	CapsuleComp->SetupAttachment(RootComponent);
 
+	// Since the material is upside down, we must create a new rotator with a Yaw of 180.0f;
+	FRotator NewRotation = FRotator(0, 180.0f, 0);
+
+	// Set the Actor's(this Bumper) rotation to the NewRotation above
+	SetActorRotation(NewRotation);
+
 	// Initial value for the force of the bumper
 	BumperForce = 2500.0f;
-
 }
 
 // Called when the game starts or when spawned
@@ -53,25 +58,35 @@ void APGBumper::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+
 void APGBumper::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
-	APGBall* ball = Cast<APGBall>(OtherActor);
+	// Cast the overlapping actor to the PGBall class
+	auto ball = Cast<APGBall>(OtherActor);
 
+	// If the casted actor was indeed a PGBall
 	if (ball)
 	{
+		// Bump the ball
 		Bump(ball);
 	}
-
 }
 
 void APGBumper::Bump(APGBall* ball)
 {
+	// Vector of the Bumper's current location
 	FVector From = GetActorLocation();
+
+	// Vector of the ball's location
 	FVector To = ball->GetActorLocation();
 
-	FVector BumperImpulse = UKismetMathLibrary::GetDirectionUnitVector(From, To) * BumperForce;
-	ball->GetMeshComp()->AddImpulse(BumperImpulse, NAME_None, true);
+	// The direction the ball will be sent
+	FVector BumpDirection = UKismetMathLibrary::GetDirectionUnitVector(From, To);
+
+	// Add an impulse to the ball equaling the BumpDirection multiplied by the BumpForce
+	// It's necessary to multiply by the BumpForce because GetDirectionUnitVector simply gives the direction and the actual force will be minimal
+	ball->GetMeshComp()->AddImpulse(BumpDirection * BumperForce, NAME_None, true);
 }
 
