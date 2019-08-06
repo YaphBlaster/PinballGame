@@ -8,6 +8,7 @@
 #include "PGBumper.generated.h"
 
 class UCapsuleComponent;
+class UTimelineComponent;
 
 UCLASS()
 class PINBALLGAME_API APGBumper : public AActor
@@ -34,6 +35,23 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Variables")
 		float BumperForce;
 
+	UPROPERTY(VisibleAnywhere, Category = "Timeline")
+		UTimelineComponent* BumpTimeline;
+
+	UPROPERTY(EditDefaultsOnly, Category ="Timeline")
+		UCurveFloat* FloatCurve;
+
+	UPROPERTY()
+		FVector BumperMechanismStart;
+
+	UPROPERTY()
+		FVector BumperMechanismEnd;
+
+	///* Declare our delegate function to be bound with Update(float value) */
+	//FOnTimelineFloat InterpFunc;
+
+	UFUNCTION()
+		void Update(float value);
 
 public:	
 	// Called every frame
@@ -44,4 +62,5 @@ public:
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
 	void Bump(APGBall* ball);
+
 };

@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include <Components/TimelineComponent.h>
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::White,text)
 
@@ -17,8 +18,11 @@ APGBumper::APGBumper()
 	BumperMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BumperMesh"));
 	BumperMechanism = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("BumperMechanism"));
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
+	BumpTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("Timeline"));
 
-	// Collision Capsule height and radius setup[
+
+
+	// Collision Capsule height and radius setup
 	CapsuleComp->SetCapsuleHalfHeight(180.0f);
 	CapsuleComp->SetCapsuleRadius(120.0f);
 
@@ -43,13 +47,39 @@ APGBumper::APGBumper()
 
 	// Initial value for the force of the bumper
 	BumperForce = 2500.0f;
+
 }
 
 // Called when the game starts or when spawned
 void APGBumper::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FOnTimelineFloat InterpFunc;
+
+
+	// Check if curve asset reference is valid
+	if (FloatCurve)
+	{
+		InterpFunc.BindUFunction(this, FName("Update"));
+
+		// Add the float curve to the Timeline and connect to the InterpFunction's delegate
+		BumpTimeline->AddInterpFloat(FloatCurve, InterpFunc, FName("Alpha"));
+
+		// Setting Vectors
+		BumperMechanismStart = FVector();
+		BumperMechanismEnd = FVector(0.0f, 0.0f, -70.0f);
+
+		// Setting our TimeLine's settings before we start it
+		BumpTimeline->SetLooping(false);
+		BumpTimeline->SetIgnoreTimeDilation(true);
+	}
 	
+}
+
+void APGBumper::Update(float value)
+{
+	BumperMechanism->SetRelativeLocation(FMath::Lerp(BumperMechanismStart, BumperMechanismEnd, value));
 }
 
 // Called every frame
@@ -88,5 +118,8 @@ void APGBumper::Bump(APGBall* ball)
 	// Add an impulse to the ball equaling the BumpDirection multiplied by the BumpForce
 	// It's necessary to multiply by the BumpForce because GetDirectionUnitVector simply gives the direction and the actual force will be minimal
 	ball->GetMeshComp()->AddImpulse(BumpDirection * BumperForce, NAME_None, true);
+
+	// Play TimeLine
+	BumpTimeline->PlayFromStart();
 }
 
