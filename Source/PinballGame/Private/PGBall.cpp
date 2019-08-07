@@ -57,8 +57,6 @@ void APGBall::Tick(float DeltaTime)
 		// Add impulse in the direction of the hit object
 		MeshComp->AddImpulse(StickyVector, NAME_None, true);
 	}
-
-
 }
 
 UStaticMeshComponent* APGBall::GetMeshComp()

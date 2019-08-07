@@ -28,11 +28,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Variables")
 		float TableStickyness;
 
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UStaticMeshComponent* GetMeshComp();
-
 };
