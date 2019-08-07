@@ -47,8 +47,6 @@ protected:
 	UPROPERTY()
 		FVector BumperMechanismEnd;
 
-	///* Declare our delegate function to be bound with Update(float value) */
-	//FOnTimelineFloat InterpFunc;
 
 	UFUNCTION()
 		void Update(float value);

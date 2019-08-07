@@ -20,8 +20,6 @@ APGBumper::APGBumper()
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	BumpTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("Timeline"));
 
-
-
 	// Collision Capsule height and radius setup
 	CapsuleComp->SetCapsuleHalfHeight(180.0f);
 	CapsuleComp->SetCapsuleRadius(120.0f);
@@ -60,6 +58,7 @@ void APGBumper::BeginPlay()
 	// Check if curve asset reference is valid
 	if (FloatCurve)
 	{
+		// Bind our Update function to the InterpFunc from FOnTimelineFloat
 		InterpFunc.BindUFunction(this, FName("Update"));
 
 		// Add the float curve to the Timeline and connect to the InterpFunction's delegate
