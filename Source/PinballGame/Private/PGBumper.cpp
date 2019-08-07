@@ -6,6 +6,11 @@
 #include "Components/CapsuleComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include <Components/TimelineComponent.h>
+#include <Components/PointLightComponent.h>
+#include <Materials/MaterialInstanceDynamic.h>
+#include <Kismet/GameplayStatics.h>
+#include "Sound/SoundCue.h"
+
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::White,text)
 
@@ -18,7 +23,21 @@ APGBumper::APGBumper()
 	BumperMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BumperMesh"));
 	BumperMechanism = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("BumperMechanism"));
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
+	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
 	BumpTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("Timeline"));
+
+	// Set the BumperMesh as the Highest Parent
+	RootComponent = BumperMesh;
+
+	// Attach the BumperMechanism and the Capsule Collision to the RootComponent (BumperMesh)
+	BumperMechanism->SetupAttachment(BumperMesh);
+	CapsuleComp->SetupAttachment(BumperMesh);
+	PointLight->SetupAttachment(BumperMesh);
+
+	// Point Light default settings
+	PointLight->SetWorldLocation(FVector(0.0f, 0.0f, 100.0f));
+	PointLight->SetCastShadows(false);
+	PointLight->SetIntensity(0.0f);
 
 	// Collision Capsule height and radius setup
 	CapsuleComp->SetCapsuleHalfHeight(180.0f);
@@ -30,13 +49,6 @@ APGBumper::APGBumper()
 	// Specifically set collision response to PhysicsBody actors to overlap
 	CapsuleComp->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Overlap);
 	
-	// Set the BumperMesh as the Highest Parent
-	RootComponent = BumperMesh;
-
-	// Attach the BumperMechanism and the Capsule Collision to the RootComponent (BumperMesh)
-	BumperMechanism->SetupAttachment(RootComponent);
-	CapsuleComp->SetupAttachment(RootComponent);
-
 	// Since the material is upside down, we must create a new rotator with a Yaw of 180.0f;
 	FRotator NewRotation = FRotator(0, 180.0f, 0);
 
@@ -45,7 +57,6 @@ APGBumper::APGBumper()
 
 	// Initial value for the force of the bumper
 	BumperForce = 2500.0f;
-
 }
 
 // Called when the game starts or when spawned
@@ -54,6 +65,9 @@ void APGBumper::BeginPlay()
 	Super::BeginPlay();
 
 	FOnTimelineFloat InterpFunc;
+
+	// Create dynamic material instance
+	MatInst = BumperMesh->CreateAndSetMaterialInstanceDynamicFromMaterial(1, BumperMesh->GetMaterial(1));
 
 	// Check if curve asset reference is valid
 	if (FloatCurve)
@@ -78,6 +92,8 @@ void APGBumper::BeginPlay()
 void APGBumper::Update(float value)
 {
 	BumperMechanism->SetRelativeLocation(FMath::Lerp(BumperMechanismStart, BumperMechanismEnd, value));
+	PointLight->SetIntensity(FMath::Lerp(0.0f, 500.0f, value));
+	MatInst->SetScalarParameterValue("EmissiveBoost", FMath::Lerp(0.0f, 20.0f, value));
 }
 
 // Called every frame
@@ -119,5 +135,10 @@ void APGBumper::Bump(APGBall* ball)
 
 	// Play TimeLine
 	BumpTimeline->PlayFromStart();
+
+	// Check for null is not needed as the PlaySoundAtLocation already does the check
+	// Alt+G into PlaySoundAtLocation to see this
+	// Sound Cue must be added to the include block
+	UGameplayStatics::PlaySoundAtLocation(this, BumpSound, GetActorLocation());
 }
 

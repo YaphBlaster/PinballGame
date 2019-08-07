@@ -9,6 +9,8 @@
 
 class UCapsuleComponent;
 class UTimelineComponent;
+class UPointLightComponent;
+class USoundCue;
 
 UCLASS()
 class PINBALLGAME_API APGBumper : public AActor
@@ -32,6 +34,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UCapsuleComponent* CapsuleComp;
 
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+		UPointLightComponent* PointLight;
+
 	UPROPERTY(VisibleAnywhere, Category = "Variables")
 		float BumperForce;
 
@@ -47,6 +52,13 @@ protected:
 	UPROPERTY()
 		FVector BumperMechanismEnd;
 
+	// Dynamic material
+	UPROPERTY()
+		UMaterialInstanceDynamic* MatInst;
+
+	// NOTE: Audio files must be converted to Unreal's Cue format
+	UPROPERTY(EditDefaultsOnly, Category = "Components")
+		USoundCue* BumpSound;
 
 	UFUNCTION()
 		void Update(float value);
