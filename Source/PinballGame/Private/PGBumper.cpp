@@ -21,7 +21,7 @@ APGBumper::APGBumper()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BumperMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BumperMesh"));
-	BumperMechanism = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("BumperMechanism"));
+	BumperMechanism = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BumperMechanism"));
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
 	BumpTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("Timeline"));
