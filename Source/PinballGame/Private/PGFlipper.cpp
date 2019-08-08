@@ -30,6 +30,7 @@ APGFlipper::APGFlipper()
 
 	// This is needed for the MoveComponentTo function
 	LatentActionInfo.CallbackTarget = this;
+
 	FlipTime = 0.2f;
 }
 
@@ -43,15 +44,15 @@ void APGFlipper::SetDefaults()
 {
 	switch (FlipperType)
 	{
+	case EFlipperType::FT_Left:
+		StartRotation.Yaw = 20.0f;
+		EndRotation.Yaw = -20.0f;
+		Scale.X = 1.0f;
+		break;
 	case EFlipperType::FT_Right:
 		StartRotation.Yaw = -20.0f;
 		EndRotation.Yaw = 20.0f;
 		Scale.X = -1.0f;
-		break;
-	default:
-		StartRotation.Yaw = 20.0f;
-		EndRotation.Yaw = -20.0f;
-		Scale.X = 1.0f;
 		break;
 	}
 
