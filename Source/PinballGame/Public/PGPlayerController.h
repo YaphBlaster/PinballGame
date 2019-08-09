@@ -49,6 +49,6 @@ public:
 	// Needed to setup the input bindings
 	virtual void SetupInputComponent() override;
 
-
+	APGPlunger* GetPlunger();
 	
 };

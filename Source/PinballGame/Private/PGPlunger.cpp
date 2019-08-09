@@ -27,6 +27,7 @@ APGPlunger::APGPlunger()
 	// Setting Vectors
 	PlungerStart = FVector::ZeroVector;
 	PlungerEnd = FVector(0.0f, 150.0f, 0.0f);
+	BallLocation = FVector(0.0f, 400.0f, 0.0f)
 
 	LatentActionInfo.CallbackTarget = this;
 
@@ -78,5 +79,10 @@ void APGPlunger::StopCharge()
 {
 	PlungerTimeline->Stop();
 	UKismetSystemLibrary::MoveComponentTo(MeshComp, FVector::ZeroVector, FRotator::ZeroRotator, false, false, 0.1f, false, EMoveComponentAction::Move, LatentActionInfo);
+}
+
+FVector APGPlunger::GetBallSpawnLocation()
+{
+	GetWorldsp
 }
 

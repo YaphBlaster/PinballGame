@@ -28,6 +28,11 @@ void APGPlayerController::SetupInputComponent()
 
 }
 
+APGPlunger* APGPlayerController::GetPlunger()
+{
+	return Plunger;
+}
+
 void APGPlayerController::DetectFlippers()
 {
 	// Array that will store the actors from GetAllActorsOfClass

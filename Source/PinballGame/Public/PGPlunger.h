@@ -29,6 +29,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UStaticMeshComponent* MeshComp;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Variables")
+		FVector BallLocation;
+
 	/* Components needed for Timelines */
 	UPROPERTY(VisibleAnywhere, Category = "Timeline")
 		UTimelineComponent* PlungerTimeline;
@@ -57,5 +60,7 @@ public:
 	void ChargePlunger();
 
 	void StopCharge();
+
+	FVector GetBallSpawnLocation();
 
 };

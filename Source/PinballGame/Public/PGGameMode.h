@@ -13,5 +13,13 @@ UCLASS()
 class PINBALLGAME_API APGGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	void SpawnBall();
+
+public:
+	APGGameMode()
 };
