@@ -40,11 +40,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Variables")
 		float BumperForce;
 
+	/* Components needed for Timelines */
 	UPROPERTY(VisibleAnywhere, Category = "Timeline")
 		UTimelineComponent* BumpTimeline;
 
-	UPROPERTY(EditDefaultsOnly, Category ="Timeline")
+	UPROPERTY(EditDefaultsOnly, Category = "Timeline")
 		UCurveFloat* FloatCurve;
+	//--------------------------------------------------//
 
 	UPROPERTY()
 		FVector BumperMechanismStart;

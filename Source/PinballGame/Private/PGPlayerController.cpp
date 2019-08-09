@@ -4,10 +4,12 @@
 #include "PGPlayerController.h"
 #include <Kismet/GameplayStatics.h>
 #include "PGFlipper.h"
+#include "PGPlunger.h"
 
 void APGPlayerController::BeginPlay()
 {
 	DetectFlippers();
+	DetectPlunger();
 }
 
 void APGPlayerController::SetupInputComponent()
@@ -20,6 +22,9 @@ void APGPlayerController::SetupInputComponent()
 
 	this->InputComponent->BindAction("RightFlipper", EInputEvent::IE_Pressed, this, &APGPlayerController::RightFlipperPress);
 	this->InputComponent->BindAction("RightFlipper", EInputEvent::IE_Released, this, &APGPlayerController::RightFlipperRelease);
+
+	this->InputComponent->BindAction("Plunger", EInputEvent::IE_Pressed, this, &APGPlayerController::PlungerPress);
+	this->InputComponent->BindAction("Plunger", EInputEvent::IE_Released, this, &APGPlayerController::PlungerRelease);
 
 }
 
@@ -57,6 +62,15 @@ void APGPlayerController::DetectFlippers()
 
 }
 
+void APGPlayerController::DetectPlunger()
+{
+	TArray<AActor*> ReturnedActors;
+	UGameplayStatics::GetAllActorsOfClass(this, APGPlunger::StaticClass(), ReturnedActors);
+
+	Plunger = Cast<APGPlunger>(ReturnedActors[0]);
+
+}
+
 void APGPlayerController::RightFlipperPress()
 {
 	for (APGFlipper* Flipper : RightFlippers)
@@ -71,6 +85,16 @@ void APGPlayerController::RightFlipperRelease()
 	{
 		Flipper->Flop();
 	}
+}
+
+void APGPlayerController::PlungerPress()
+{
+	Plunger->ChargePlunger();
+}
+
+void APGPlayerController::PlungerRelease()
+{
+	Plunger->StopCharge();
 }
 
 void APGPlayerController::LeftFlipperPress()
@@ -88,3 +112,4 @@ void APGPlayerController::LeftFlipperRelease()
 		Flipper->Flop();
 	}
 }
+

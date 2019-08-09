@@ -8,6 +8,7 @@
 #include "PGPlayerController.generated.h"
 
 class APGFlipper;
+class APGPlunger;
 
 /**
  * 
@@ -27,17 +28,27 @@ protected:
 	UPROPERTY()
 	TArray<APGFlipper*> RightFlippers;
 
-
-public: 
-	// Needed to setup the input bindings
-	virtual void SetupInputComponent() override;
+	UPROPERTY()
+	APGPlunger* Plunger;
 
 	void DetectFlippers();
+
+	void DetectPlunger();
 
 	void LeftFlipperPress();
 	void LeftFlipperRelease();
 
 	void RightFlipperPress();
 	void RightFlipperRelease();
+
+	void PlungerPress();
+	void PlungerRelease();
+
+
+public: 
+	// Needed to setup the input bindings
+	virtual void SetupInputComponent() override;
+
+
 	
 };

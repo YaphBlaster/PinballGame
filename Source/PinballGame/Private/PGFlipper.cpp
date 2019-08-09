@@ -31,7 +31,7 @@ APGFlipper::APGFlipper()
 	// This is needed for the MoveComponentTo function
 	LatentActionInfo.CallbackTarget = this;
 
-	FlipTime = 0.2f;
+	FlipTime = 0.02f;
 }
 
 // Called when the game starts or when spawned
