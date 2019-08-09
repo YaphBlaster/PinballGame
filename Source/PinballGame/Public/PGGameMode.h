@@ -21,5 +21,5 @@ protected:
 	void SpawnBall();
 
 public:
-	APGGameMode()
+	APGGameMode();
 };
