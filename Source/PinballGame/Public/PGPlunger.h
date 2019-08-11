@@ -29,7 +29,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UStaticMeshComponent* MeshComp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Variables")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Variables")
 		FVector BallLocation;
 
 	/* Components needed for Timelines */
@@ -51,7 +51,7 @@ protected:
 		FLatentActionInfo LatentActionInfo;
 	
 	UFUNCTION()
-	void Update(float value);
+		void Update(float value);
 
 public:	
 	// Called every frame
@@ -61,6 +61,8 @@ public:
 
 	void StopCharge();
 
-	FVector GetBallSpawnLocation();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintPure, Category = "Custom Functions")
+		FVector GetBallSpawnLocation();
 
 };

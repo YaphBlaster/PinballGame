@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "PGBall.h"
 #include "PGGameMode.generated.h"
 
 /**
@@ -18,8 +19,15 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void SpawnBall();
+	/** Projectile class to spawn */
+	UPROPERTY(EditDefaultsOnly, Category = "Ball")
+	TSubclassOf<APGBall> BallClass;
+
 
 public:
 	APGGameMode();
+
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Custom Functions" )
+	void SpawnBallBP();
+
 };

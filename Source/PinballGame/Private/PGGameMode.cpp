@@ -3,18 +3,14 @@
 
 #include "PGGameMode.h"
 
+#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::White,text)
 
-void APGGameMode::BeginPlay()
+APGGameMode::APGGameMode()
 {
 
 }
 
-void APGGameMode::SpawnBall()
+void APGGameMode::BeginPlay()
 {
-	// Iterate over all the player controllers available
-	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
-	{
-		// Store the player controller from the iterator
-		APGPlayerController* PC = Cast<APGPlayerController>(Iterator->Get());
-	}
+	SpawnBallBP();
 }
