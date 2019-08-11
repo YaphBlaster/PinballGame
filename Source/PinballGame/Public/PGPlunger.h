@@ -61,8 +61,5 @@ public:
 
 	void StopCharge();
 
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintPure, Category = "Custom Functions")
-		FVector GetBallSpawnLocation();
-
+	FVector GetBallSpawnLocation();
 };

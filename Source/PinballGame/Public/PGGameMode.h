@@ -15,6 +15,10 @@ class PINBALLGAME_API APGGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+public:
+	// Sets default values for this actor's properties
+	APGGameMode();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,11 +27,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Ball")
 	TSubclassOf<APGBall> BallClass;
 
+	void SpawnBall();
 
-public:
-	APGGameMode();
-
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Custom Functions" )
-	void SpawnBallBP();
+	// In order to Hook into the OnDestroy Delegate with AddDynamic, we need to have a matching method with a similar signature as the method that will be overridden
+	// OnDestroy(AActor* DestroyedActor)
+	// UFUNCTION() is also needed to hook into Unreal functions
+	UFUNCTION()
+		void OnBallDestroy(AActor* DestroyedActor);
 
 };

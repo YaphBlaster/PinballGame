@@ -59,7 +59,16 @@ void APGPlunger::BeginPlay()
 
 void APGPlunger::Update(float value)
 {
+	// Pull the Plunger back by lerping the position of the Plunger by using the Alpha (parameter labelled 'value') that is returned from the Timeline
 	MeshComp->SetRelativeLocation(FMath::Lerp(PlungerStart, PlungerEnd, value));
+}
+
+FVector APGPlunger::GetBallSpawnLocation()
+{
+	// https://api.unrealengine.com/INT/API/Runtime/Engine/Kismet/UKismetMathLibrary/TransformLocation/index.html
+	// Transform a position by the supplied transform. For example, if T was an object's transform, this would transform a position from local space to world space.
+	// TransformLocation will translate LocalSpace to WorldSpace that is needed by the SpawnActor method
+	return UKismetMathLibrary::TransformLocation(GetActorTransform(), BallLocation);
 }
 
 // Called every frame
@@ -72,7 +81,6 @@ void APGPlunger::ChargePlunger()
 {
 	// Play TimeLine
 	PlungerTimeline->PlayFromStart();
-
 }
 
 void APGPlunger::StopCharge()

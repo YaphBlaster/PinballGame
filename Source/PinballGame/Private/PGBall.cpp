@@ -5,6 +5,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "DrawDebugHelpers.h"
 
+#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::White,text)
+
 // Sets default values
 APGBall::APGBall()
 {
@@ -25,7 +27,7 @@ APGBall::APGBall()
 void APGBall::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -63,4 +65,5 @@ UStaticMeshComponent* APGBall::GetMeshComp()
 {
 	return MeshComp;
 }
+
 
