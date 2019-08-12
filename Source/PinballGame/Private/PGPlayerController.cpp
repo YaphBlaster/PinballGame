@@ -28,11 +28,6 @@ void APGPlayerController::SetupInputComponent()
 
 }
 
-APGPlunger* APGPlayerController::GetPlunger()
-{
-	return Plunger;
-}
-
 void APGPlayerController::DetectFlippers()
 {
 	// Array that will store the actors from GetAllActorsOfClass
@@ -43,7 +38,7 @@ void APGPlayerController::DetectFlippers()
 	for (AActor* Actor : ReturnedActors)
 	{
 		// Cast the actor to PGFlipper
-		APGFlipper* CastedFlipper = Cast<APGFlipper>(Actor);
+		auto* CastedFlipper = Cast<APGFlipper>(Actor);
 
 		// If the cast was successful
 		if (CastedFlipper)
