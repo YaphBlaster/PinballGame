@@ -42,7 +42,7 @@ void APGBallResetZone::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (OtherBall)
 	{
 		// Destroy the ball
-		// This will call the custom OnBallDestroy function that we have bound to the Ball's OnDestroy using AddDynamic in PGGameMode
+		// This will call the custom OnBallDestroy function that we have bound to the Ball's OnDestroy method using AddDynamic in PGGameMode
 		OtherActor->Destroy();
 	}
 }
