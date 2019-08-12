@@ -33,6 +33,8 @@ void APGBallResetZone::Tick(float DeltaTime)
 
 void APGBallResetZone::NotifyActorBeginOverlap(AActor* OtherActor)
 {
+	Super::NotifyActorBeginOverlap(OtherActor);
+
 	// Cast the overlapped actor to a PGBall
 	APGBall* OtherBall = Cast<APGBall>(OtherActor);
 
