@@ -8,7 +8,7 @@
 // Sets default values
 APGGameMode::APGGameMode()
 {
-
+	Multiplier = 1.0f;
 }
 
 void APGGameMode::BeginPlay()
@@ -36,6 +36,13 @@ void APGGameMode::SpawnBall()
 		// Hook into the OnDestroyed event and add our OnBallDestroy function to the call
 		SpawnedBall->OnDestroyed.AddDynamic(this, &APGGameMode::OnBallDestroy);
 	}
+}
+
+float APGGameMode::AddSCore(float PointsToAdd)
+{
+	Score += (PointsToAdd * Multiplier);
+
+	return Score;
 }
 
 // Method that will be hooked into the Pinball's OnDestroy method

@@ -10,6 +10,7 @@
 #include <Materials/MaterialInstanceDynamic.h>
 #include <Kismet/GameplayStatics.h>
 #include "Sound/SoundCue.h"
+#include "PGGameMode.h"
 
 
 #define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 1.5, FColor::White,text)
@@ -132,6 +133,12 @@ void APGBumper::Bump(APGBall* ball)
 	// Add an impulse to the ball equaling the BumpDirection multiplied by the BumpForce
 	// It's necessary to multiply by the BumpForce because GetDirectionUnitVector simply gives the direction and the actual force will be minimal
 	ball->GetMeshComp()->AddImpulse(BumpDirection * BumperForce, NAME_None, true);
+	
+	// Cast the current GameMode to PGGameMode
+	APGGameMode* PGGameMode = Cast<APGGameMode>(UGameplayStatics::GetGameMode(this));
+
+	// Add 10 points to the score
+	PGGameMode->AddSCore(10.0f);
 
 	// Play TimeLine
 	BumpTimeline->PlayFromStart();

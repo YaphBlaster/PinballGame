@@ -27,6 +27,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Ball")
 	TSubclassOf<APGBall> BallClass;
 
+	float Score;
+	float Multiplier;
+
 	void SpawnBall();
 
 	// In order to Hook into the OnDestroy Delegate with AddDynamic, we need to have a matching method with a similar signature as the method that will be overridden
@@ -34,5 +37,8 @@ protected:
 	// UFUNCTION() is also needed to hook into Unreal functions
 	UFUNCTION()
 		void OnBallDestroy(AActor* DestroyedActor);
+
+public:
+	float AddSCore(float PointsToAdd);
 
 };

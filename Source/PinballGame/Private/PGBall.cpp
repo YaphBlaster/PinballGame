@@ -15,6 +15,9 @@ APGBall::APGBall()
 
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	MeshComp->SetSimulatePhysics(true);
+
+	// Needed for collision detection
+	MeshComp->SetCollisionObjectType(ECC_PhysicsBody);
 	
 	RootComponent = MeshComp;
 
