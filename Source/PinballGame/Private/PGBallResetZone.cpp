@@ -36,7 +36,7 @@ void APGBallResetZone::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 
 	// Cast the overlapped actor to a PGBall
-	APGBall* OtherBall = Cast<APGBall>(OtherActor);
+	auto* OtherBall = Cast<APGBall>(OtherActor);
 
 	// If the casted actor was indeed a PGBall
 	if (OtherBall)
