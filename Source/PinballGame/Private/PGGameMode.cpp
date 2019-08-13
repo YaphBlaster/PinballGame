@@ -14,6 +14,7 @@ APGGameMode::APGGameMode()
 void APGGameMode::BeginPlay()
 {
 	SpawnBall();
+	CreateUI();
 }
 
 void APGGameMode::SpawnBall()
@@ -42,6 +43,11 @@ float APGGameMode::AddSCore(float PointsToAdd)
 {
 	Score += (PointsToAdd * Multiplier);
 
+	return Score;
+}
+
+float APGGameMode::GetScore()
+{
 	return Score;
 }
 
