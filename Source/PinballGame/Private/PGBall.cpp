@@ -16,6 +16,10 @@ APGBall::APGBall()
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	MeshComp->SetSimulatePhysics(true);
 
+	// This helps fix the problem where the ball flies off the pinball table
+	MeshComp->SetLinearDamping(0.1f);
+	MeshComp->SetAngularDamping(0.1f);
+
 	// Needed for collision detection
 	MeshComp->SetCollisionObjectType(ECC_PhysicsBody);
 	

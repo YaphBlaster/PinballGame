@@ -9,6 +9,7 @@
 APGGameMode::APGGameMode()
 {
 	Multiplier = 1.0f;
+	BallsRemaining = 3;
 }
 
 void APGGameMode::BeginPlay()
@@ -39,6 +40,11 @@ void APGGameMode::SpawnBall()
 	}
 }
 
+void APGGameMode::EndGame()
+{
+
+}
+
 float APGGameMode::AddSCore(float PointsToAdd)
 {
 	Score += (PointsToAdd * Multiplier);
@@ -54,5 +60,12 @@ float APGGameMode::GetScore()
 // Method that will be hooked into the Pinball's OnDestroy method
 void APGGameMode::OnBallDestroy(AActor* DestroyedActor)
 {
-	SpawnBall();
+	if (BallsRemaining > 0)
+	{
+		SpawnBall();
+	}
+	else 
+	{
+
+	}
 }

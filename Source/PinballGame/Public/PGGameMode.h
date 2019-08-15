@@ -31,7 +31,11 @@ protected:
 
 	float Multiplier;
 
+	int32 BallsRemaining;
+
 	void SpawnBall();
+
+	void EndGame();
 
 	// In order to Hook into the OnDestroy Delegate with AddDynamic, we need to have a matching method with a similar signature as the method that will be overridden
 	// OnDestroy(AActor* DestroyedActor)
