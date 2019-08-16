@@ -6,6 +6,29 @@
 #include "GameFramework/SaveGame.h"
 #include "PGHighScoreSave.generated.h"
 
+
+USTRUCT()
+struct FHighScoreStruct
+{
+	GENERATED_BODY()
+
+public:
+	// Send vector information over the network
+	// Less precise but less data to move also
+	UPROPERTY()
+		FText Name;
+
+	UPROPERTY()
+		float Score;
+
+	FHighScoreStruct()
+	{
+		Name = FText::FromString("");
+		Score = 0.0f;
+	}
+};
+
+
 /**
  * 
  */
@@ -13,5 +36,16 @@ UCLASS()
 class PINBALLGAME_API UPGHighScoreSave : public USaveGame
 {
 	GENERATED_BODY()
-	
+
+public:
+	// Sets default values for this actor's properties
+	UPGHighScoreSave();
+
+protected:
+	UPROPERTY()
+	TArray<FHighScoreStruct> SaveStruct;
+
+public:
+	void DetermineLowestScoreValue();
+
 };
