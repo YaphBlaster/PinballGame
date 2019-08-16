@@ -21,11 +21,17 @@ public:
 	UPROPERTY()
 		float Score;
 
+	void SetName(FString NewName)
+	{
+		Name = FText::FromString(NewName);
+	}
+
 	FHighScoreStruct()
 	{
-		Name = FText::FromString("");
+		Name = FText::FromString("Default");
 		Score = 0.0f;
 	}
+
 };
 
 
