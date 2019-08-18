@@ -49,9 +49,21 @@ public:
 
 protected:
 	UPROPERTY()
-	TArray<FHighScoreStruct> SaveStruct;
+	TArray<FHighScoreStruct> SaveItemsStruct;
+
+	UPROPERTY()
+	FHighScoreStruct LowestScoreStruct;
+
+	UPROPERTY()
+	FHighScoreStruct HighestScoreStruct;
+	
+	int32 LowestScoreIndex;
+	int32 HighestScoreIndex;
+
 
 public:
-	void DetermineLowestScoreValue();
+	FHighScoreStruct DetermineLowestScoreValue();
+	FHighScoreStruct DetermineHighestScoreValue();
+	void SortSaveData();
 
 };

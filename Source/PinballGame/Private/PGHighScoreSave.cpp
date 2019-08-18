@@ -8,14 +8,14 @@ UPGHighScoreSave::UPGHighScoreSave()
 
 }
 
-void UPGHighScoreSave::DetermineLowestScoreValue()
+FHighScoreStruct UPGHighScoreSave::DetermineLowestScoreValue()
 {
-	float LowestScore;
-	int32 LowestIndex;
+	float LowestScore = 0.0f;
+	int32 LowestIndex = 0;
 
 	int32 count = 0;
 
-	for (FHighScoreStruct SaveItem : SaveStruct)
+	for (FHighScoreStruct SaveItem : SaveItemsStruct)
 	{
 		float ElementScore = SaveItem.Score;
 
@@ -44,5 +44,72 @@ void UPGHighScoreSave::DetermineLowestScoreValue()
 		// Increment the count
 		count++;
 	}
+
+	LowestScoreStruct = SaveItemsStruct[LowestIndex];
+	LowestScoreIndex = LowestIndex;
+
+	return LowestScoreStruct;
+}
+
+FHighScoreStruct UPGHighScoreSave::DetermineHighestScoreValue()
+{
+	float HighestScore = 0.0f;
+	int32 HighestIndex = 0;
+
+	int32 count = 0;
+
+	for (FHighScoreStruct SaveItem : SaveItemsStruct)
+	{
+		float ElementScore = SaveItem.Score;
+
+		// If this is the first element of the array
+		if (count == 0)
+		{
+			// Set the HighestScore to the current ElementScore
+			// Set the HighestIndex to the current count (which will be zero)
+			HighestScore = ElementScore;
+			HighestIndex = count;
+		}
+		// Else this is every other element
+		else {
+
+			// If the current ElementScore is greater than the current HighestScore
+			if (ElementScore > HighestScore)
+			{
+				// Set the HighestScore to the current ElementScore
+				// Set the HighestIndex to the current count
+				HighestScore = ElementScore;
+				HighestIndex = count;
+			}
+
+		}
+
+		// Increment the count
+		count++;
+	}
+
+	HighestScoreStruct = SaveItemsStruct[HighestIndex];
+	HighestScoreIndex = HighestIndex;
+
+	return HighestScoreStruct;
+}
+
+void UPGHighScoreSave::SortSaveData()
+{
+	// Create a temporary high score structs array and set it to the current SaveItemsStruct
+	TArray<FHighScoreStruct> TempSaveStructs = SaveItemsStruct;
+
+	// While there are elements in the SaveItemsStruct
+	while (SaveItemsStruct.Num() > 0)
+	{
+		// Add the Highest Struct Value to the TempSaveStructs
+		TempSaveStructs.Add(DetermineHighestScoreValue());
+
+		// Remove an item from the SaveItemsStruct at the HighestScoreIndex
+		SaveItemsStruct.RemoveAt(HighestScoreIndex);
+	}
+
+	// Set the SaveItemsStruct to be the TempSaveStructs
+	SaveItemsStruct = TempSaveStructs;
 }
 

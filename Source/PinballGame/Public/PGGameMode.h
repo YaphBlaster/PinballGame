@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "PGBall.h"
+#include "PGHighScoreSave.h"
 #include "PGGameMode.generated.h"
+
+class UPGHighScoreSave;
 
 /**
  * 
@@ -42,6 +45,12 @@ protected:
 	// UFUNCTION() is also needed to hook into Unreal functions
 	UFUNCTION()
 		void OnBallDestroy(AActor* DestroyedActor);
+
+	UPGHighScoreSave* GetSaveGameData();
+
+	UPGHighScoreSave* CurrentSaveObject;
+
+	FString HighScoreSaveName;
 
 public:
 	float AddSCore(float PointsToAdd);

@@ -10,6 +10,7 @@ APGGameMode::APGGameMode()
 {
 	Multiplier = 1.0f;
 	BallsRemaining = 3;
+	HighScoreSaveName = FString(TEXT("HighScore"));
 }
 
 void APGGameMode::BeginPlay()
@@ -66,6 +67,42 @@ void APGGameMode::OnBallDestroy(AActor* DestroyedActor)
 	}
 	else 
 	{
+
+	}
+}
+
+UPGHighScoreSave* APGGameMode::GetSaveGameData()
+{
+	// NOTE: Checks sometimes need references (asterisk *)
+	if (CurrentSaveObject)
+	{
+		return CurrentSaveObject;
+	}
+	else
+	{
+		// Boolean that contains if a save game exists or not
+		bool DoesSaveGameExist = UGameplayStatics::DoesSaveGameExist(HighScoreSaveName, 0);
+
+		// If a save game does exist
+		if (DoesSaveGameExist)
+		{
+			// Create a UPGHightScoreSave pointer object;
+			UPGHighScoreSave* TempSave = Cast<UPGHighScoreSave>(UGameplayStatics::LoadGameFromSlot(HighScoreSaveName, 0));
+
+			// Sort the save data
+			TempSave->SortSaveData();
+
+			// Set the current save object to the temp
+			CurrentSaveObject = TempSave;
+		}
+		// Else a save game does not exist
+		else
+		{
+			// Create a new save game object
+			CurrentSaveObject = Cast<UPGHighScoreSave>(UGameplayStatics::CreateSaveGameObject(UPGHighScoreSave::StaticClass()));
+		}
+
+		return CurrentSaveObject;
 
 	}
 }
