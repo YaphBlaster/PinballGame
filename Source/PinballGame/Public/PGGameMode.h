@@ -30,10 +30,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Ball")
 	TSubclassOf<APGBall> BallClass;
 
-	float Score;
+	UPROPERTY()
+		float Score;
 
-	float Multiplier;
+	UPROPERTY()
+		float Multiplier;
 
+	UPROPERTY()
 	int32 BallsRemaining;
 
 	void SpawnBall();
@@ -49,6 +52,7 @@ protected:
 	UFUNCTION(BlueprintPure, Category = "Custom Functions")
 	UPGHighScoreSave* GetSaveGameData();
 
+	UPROPERTY(VisibleAnywhere, Category = "Variables")
 	UPGHighScoreSave* CurrentSaveObject;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Custom Variables")

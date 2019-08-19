@@ -46,7 +46,7 @@ public:
 	UPGHighScoreSave();
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, Category = "Variables")
 	TArray<FHighScoreStruct> SaveItemsStruct;
 
 	UPROPERTY()
@@ -55,7 +55,10 @@ protected:
 	UPROPERTY()
 	FHighScoreStruct HighestScoreStruct;
 	
+	UPROPERTY()
 	int32 LowestScoreIndex;
+
+	UPROPERTY()
 	int32 HighestScoreIndex;
 
 

@@ -98,7 +98,7 @@ FHighScoreStruct UPGHighScoreSave::DetermineHighestScoreValue()
 void UPGHighScoreSave::SortSaveData()
 {
 	// Create a temporary high score structs array and set it to the current SaveItemsStruct
-	TArray<FHighScoreStruct> TempSaveStructs = SaveItemsStruct;
+	TArray<FHighScoreStruct> TempSaveStructs;
 
 	// While there are elements in the SaveItemsStruct
 	while (SaveItemsStruct.Num() > 0)

@@ -9,7 +9,7 @@
 APGGameMode::APGGameMode()
 {
 	Multiplier = 1.0f;
-	BallsRemaining = 3;
+	BallsRemaining = 1;
 	HighScoreSaveName = FString(TEXT("HighScore"));
 }
 
@@ -21,6 +21,7 @@ void APGGameMode::BeginPlay()
 
 void APGGameMode::SpawnBall()
 {
+
 	// Empty array of actors that will be returned
 	TArray<AActor*> ReturnedActors;
 
@@ -43,21 +44,35 @@ void APGGameMode::SpawnBall()
 
 void APGGameMode::EndGame()
 {
+	// Reference to the UPGHighScoreSave Save Data instance
 	UPGHighScoreSave* EndGameSaveObject = GetSaveGameData();
-	if (EndGameSaveObject->GetSaveItemsStruct().Num() <= 3)
-	{
-		CreateHighScoresList();
-	}
-	else 
-	{
-		FHighScoreStruct LowestScoreStruct = EndGameSaveObject->DetermineLowestScoreValue();
 
-		if (Score < LowestScoreStruct.Score)
+	// If the reference exists
+	if (EndGameSaveObject)
+	{
+		// If there are less than 3 entries
+		if (EndGameSaveObject->GetSaveItemsStruct().Num() <= 3)
 		{
+			// Show the HighScore UI
 			CreateHighScoresList();
 		}
 
+		// Else there are more than 3 entires, so...
+		else
+		{
+			// Get the lowest score entry FHighScoreStruct
+			FHighScoreStruct LowestScoreStruct = EndGameSaveObject->DetermineLowestScoreValue();
+
+			// If the LowestScoreStruct's score is less than the user's score (in GameMode)
+			if (LowestScoreStruct.Score < Score)
+			{
+				// Allow the user to enter a new high score
+				CreateHighScoresList();
+			}
+
+		}
 	}
+
 }
 
 float APGGameMode::AddSCore(float PointsToAdd)
@@ -75,10 +90,11 @@ float APGGameMode::GetScore()
 // Method that will be hooked into the Pinball's OnDestroy method
 void APGGameMode::OnBallDestroy(AActor* DestroyedActor)
 {
+	BallsRemaining--;
+
 	if (BallsRemaining > 0)
 	{
 		SpawnBall();
-		BallsRemaining--;
 	}
 	else 
 	{
@@ -112,7 +128,7 @@ UPGHighScoreSave* APGGameMode::GetSaveGameData()
 		if (DoesSaveGameExist)
 		{
 			// Create a UPGHightScoreSave pointer object;
-			UPGHighScoreSave* TempSave = Cast<UPGHighScoreSave>(UGameplayStatics::LoadGameFromSlot(HighScoreSaveName, 0));
+			auto* TempSave = Cast<UPGHighScoreSave>(UGameplayStatics::LoadGameFromSlot(HighScoreSaveName, 0));
 
 			// Sort the save data
 			TempSave->SortSaveData();
