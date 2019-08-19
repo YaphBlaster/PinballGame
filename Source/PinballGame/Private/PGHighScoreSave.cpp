@@ -2,6 +2,7 @@
 
 
 #include "PGHighScoreSave.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UPGHighScoreSave::UPGHighScoreSave()
 {
@@ -111,5 +112,17 @@ void UPGHighScoreSave::SortSaveData()
 
 	// Set the SaveItemsStruct to be the TempSaveStructs
 	SaveItemsStruct = TempSaveStructs;
+}
+
+void UPGHighScoreSave::AddHighScore(FHighScoreStruct NewScore)
+{
+	SaveItemsStruct.Add(NewScore);
+	SortSaveData();
+	SaveItemsStruct.SetNum(UKismetMathLibrary::Min(4.0f, SaveItemsStruct.Num()));
+}
+
+TArray<FHighScoreStruct> UPGHighScoreSave::GetSaveItemsStruct()
+{
+	return SaveItemsStruct;
 }
 

@@ -43,7 +43,21 @@ void APGGameMode::SpawnBall()
 
 void APGGameMode::EndGame()
 {
+	UPGHighScoreSave* EndGameSaveObject = GetSaveGameData();
+	if (EndGameSaveObject->GetSaveItemsStruct().Num() <= 3)
+	{
+		CreateHighScoresList();
+	}
+	else 
+	{
+		FHighScoreStruct LowestScoreStruct = EndGameSaveObject->DetermineLowestScoreValue();
 
+		if (Score < LowestScoreStruct.Score)
+		{
+			CreateHighScoresList();
+		}
+
+	}
 }
 
 float APGGameMode::AddSCore(float PointsToAdd)
@@ -64,9 +78,20 @@ void APGGameMode::OnBallDestroy(AActor* DestroyedActor)
 	if (BallsRemaining > 0)
 	{
 		SpawnBall();
+		BallsRemaining--;
 	}
 	else 
 	{
+		EndGame();
+		//APlayerController* PC = GetWorld()->GetFirstPlayerController();
+
+		//if (PC)
+		//{
+		//	PC->bShowMouseCursor = true;
+		//	PC->bEnableClickEvents = true;
+		//	PC->bEnableMouseOverEvents = true;
+		//}
+
 
 	}
 }

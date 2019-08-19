@@ -46,16 +46,18 @@ protected:
 	UFUNCTION()
 		void OnBallDestroy(AActor* DestroyedActor);
 
+	UFUNCTION(BlueprintPure, Category = "Custom Functions")
 	UPGHighScoreSave* GetSaveGameData();
 
 	UPGHighScoreSave* CurrentSaveObject;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Custom Variables")
 	FString HighScoreSaveName;
 
 public:
 	float AddSCore(float PointsToAdd);
 
-	UFUNCTION(BlueprintCallable, Category = "Custom Functions")
+	UFUNCTION(BlueprintPure , Category = "Custom Functions")
 		float GetScore();
 
 	// Function is defined in GM_GameMode Blueprint
@@ -63,5 +65,11 @@ public:
 	// Make a function BlueprintImplementable, define it within Blueprints but execute it through code
 	UFUNCTION(BlueprintImplementableEvent, Category = "Custom Functions")
 		void CreateUI();
+
+	// Function is defined in GM_GameMode Blueprint
+	// If it is difficult to code a function (Adding UI Widgets to the viewport)
+	// Make a function BlueprintImplementable, define it within Blueprints but execute it through code
+	UFUNCTION(BlueprintImplementableEvent, Category = "Custom Functions")
+		void CreateHighScoresList();
 
 };

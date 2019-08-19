@@ -6,24 +6,22 @@
 #include "GameFramework/SaveGame.h"
 #include "PGHighScoreSave.generated.h"
 
-
-USTRUCT()
+// In order to reference the structs in blueprints, (BlueprintType) has to passed into the USTRUCT constructor
+USTRUCT(BlueprintType)
 struct FHighScoreStruct
 {
 	GENERATED_BODY()
 
 public:
-	// Send vector information over the network
-	// Less precise but less data to move also
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, Category = "Custom Variables")
 		FText Name;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, Category = "Custom Variables")
 		float Score;
 
-	void SetName(FString NewName)
+	float GetScore()
 	{
-		Name = FText::FromString(NewName);
+		return Score;
 	}
 
 	FHighScoreStruct()
@@ -66,4 +64,9 @@ public:
 	FHighScoreStruct DetermineHighestScoreValue();
 	void SortSaveData();
 
+	UFUNCTION(BlueprintCallable, Category = "Custom Functions")
+	void AddHighScore(FHighScoreStruct NewScore);
+
+	UFUNCTION(BlueprintPure, Category = "Custom Functions")
+	TArray<FHighScoreStruct> GetSaveItemsStruct();
 };
