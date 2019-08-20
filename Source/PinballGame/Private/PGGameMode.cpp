@@ -9,7 +9,7 @@
 APGGameMode::APGGameMode()
 {
 	Multiplier = 1.0f;
-	BallsRemaining = 1;
+	BallsRemaining = 3;
 	HighScoreSaveName = FString(TEXT("HighScore"));
 }
 
@@ -85,6 +85,11 @@ float APGGameMode::AddSCore(float PointsToAdd)
 float APGGameMode::GetScore()
 {
 	return Score;
+}
+
+FString APGGameMode::GetHighScoreSaveName()
+{
+	return HighScoreSaveName;
 }
 
 // Method that will be hooked into the Pinball's OnDestroy method

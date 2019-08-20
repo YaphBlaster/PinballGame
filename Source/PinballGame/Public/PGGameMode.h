@@ -76,4 +76,11 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Custom Functions")
 		void CreateHighScoresList();
 
+	// Function is defined in GM_GameMode Blueprint
+	// If it is difficult to code a function (Adding UI Widgets to the viewport)
+	// Make a function BlueprintImplementable, define it within Blueprints but execute it through code
+	UFUNCTION(BlueprintImplementableEvent, Category = "Custom Functions")
+		void CreateMainMenu();
+
+	FString GetHighScoreSaveName();
 };
