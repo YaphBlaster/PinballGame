@@ -64,11 +64,15 @@ public:
 	UFUNCTION(BlueprintPure , Category = "Custom Functions")
 		float GetScore();
 
+
+	UFUNCTION(BlueprintPure, Category = "Custom Functions")
+		float GetBallsRemaining();
+
 	// Function is defined in GM_GameMode Blueprint
 	// If it is difficult to code a function (Adding UI Widgets to the viewport)
 	// Make a function BlueprintImplementable, define it within Blueprints but execute it through code
 	UFUNCTION(BlueprintImplementableEvent, Category = "Custom Functions")
-		void CreateUI();
+		void CreatePlayerHUD();
 
 	// Function is defined in GM_GameMode Blueprint
 	// If it is difficult to code a function (Adding UI Widgets to the viewport)
@@ -79,8 +83,11 @@ public:
 	// Function is defined in GM_GameMode Blueprint
 	// If it is difficult to code a function (Adding UI Widgets to the viewport)
 	// Make a function BlueprintImplementable, define it within Blueprints but execute it through code
-	UFUNCTION(BlueprintImplementableEvent, Category = "Custom Functions")
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Custom Functions")
 		void CreateMainMenu();
+
+	UFUNCTION(BlueprintCallable,  Category = "Custom Functions")
+		void ResetGame();
 
 	FString GetHighScoreSaveName();
 };

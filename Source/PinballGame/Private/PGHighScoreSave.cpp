@@ -120,14 +120,6 @@ void UPGHighScoreSave::AddHighScore(FHighScoreStruct NewScore)
 	SaveItemsStruct.Add(NewScore);
 	SortSaveData();
 	SaveItemsStruct.SetNum(UKismetMathLibrary::Min(4.0f, SaveItemsStruct.Num()));
-
-	APGGameMode* GM = Cast<APGGameMode>(UGameplayStatics::GetGameMode(this));
-
-	if (GM)
-	{
-		UGameplayStatics::SaveGameToSlot(this, GM->GetHighScoreSaveName(), 0);
-	}
-
 }
 
 TArray<FHighScoreStruct> UPGHighScoreSave::GetSaveItemsStruct()

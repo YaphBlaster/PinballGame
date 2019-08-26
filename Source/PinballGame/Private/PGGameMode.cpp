@@ -8,15 +8,17 @@
 // Sets default values
 APGGameMode::APGGameMode()
 {
+	Score = 0.0f;
 	Multiplier = 1.0f;
 	BallsRemaining = 3;
 	HighScoreSaveName = FString(TEXT("HighScore"));
+	//UGameplayStatics::DeleteGameInSlot(HighScoreSaveName, 0);
+
 }
 
 void APGGameMode::BeginPlay()
 {
-	SpawnBall();
-	CreateUI();
+	CreateMainMenu();
 }
 
 void APGGameMode::SpawnBall()
@@ -69,9 +71,16 @@ void APGGameMode::EndGame()
 				// Allow the user to enter a new high score
 				CreateHighScoresList();
 			}
+			// Else the user did not get a high score
+			else 
+			{
+				// Show the Main Menu
+				CreateMainMenu();
+			}
 
 		}
 	}
+
 
 }
 
@@ -85,6 +94,11 @@ float APGGameMode::AddSCore(float PointsToAdd)
 float APGGameMode::GetScore()
 {
 	return Score;
+}
+
+float APGGameMode::GetBallsRemaining()
+{
+	return BallsRemaining;
 }
 
 FString APGGameMode::GetHighScoreSaveName()
@@ -104,16 +118,6 @@ void APGGameMode::OnBallDestroy(AActor* DestroyedActor)
 	else 
 	{
 		EndGame();
-		//APlayerController* PC = GetWorld()->GetFirstPlayerController();
-
-		//if (PC)
-		//{
-		//	PC->bShowMouseCursor = true;
-		//	PC->bEnableClickEvents = true;
-		//	PC->bEnableMouseOverEvents = true;
-		//}
-
-
 	}
 }
 
@@ -133,7 +137,7 @@ UPGHighScoreSave* APGGameMode::GetSaveGameData()
 		if (DoesSaveGameExist)
 		{
 			// Create a UPGHightScoreSave pointer object;
-			auto* TempSave = Cast<UPGHighScoreSave>(UGameplayStatics::LoadGameFromSlot(HighScoreSaveName, 0));
+			UPGHighScoreSave* TempSave = Cast<UPGHighScoreSave>(UGameplayStatics::LoadGameFromSlot(HighScoreSaveName, 0));
 
 			// Sort the save data
 			TempSave->SortSaveData();
@@ -149,6 +153,27 @@ UPGHighScoreSave* APGGameMode::GetSaveGameData()
 		}
 
 		return CurrentSaveObject;
-
 	}
+}
+
+void APGGameMode::ResetGame()
+{
+	APGGameMode* DefaultGameMode = Cast<APGGameMode>(APGGameMode::StaticClass()->GetDefaultObject(true));
+	Score = DefaultGameMode->Score;
+	Multiplier = DefaultGameMode->Multiplier;
+	BallsRemaining = DefaultGameMode->BallsRemaining;
+
+	SpawnBall();
+
+	CreatePlayerHUD();
+
+	APlayerController* PC = GetWorld()->GetFirstPlayerController();
+
+	if (PC)
+	{
+		PC->bShowMouseCursor = false;
+		PC->bEnableClickEvents = false;
+		PC->bEnableMouseOverEvents = false;
+	}
+
 }
